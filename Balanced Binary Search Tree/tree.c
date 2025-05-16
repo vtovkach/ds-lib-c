@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -190,7 +189,8 @@ static Node* insert_node(Node *node, Node *new_node, Compare_Func compare)
 
 // =================================== Insert Implementation ====================================
 
-static int avl__insert_internal(AVL_Tree *tree, void *data)
+__attribute__((visibility("hidden")))
+int avl__insert_internal(AVL_Tree *tree, void *data)
 {
     if(!data || !tree)
     {   
@@ -245,7 +245,8 @@ static Node *search_node(Node *root, void *key, Compare_Func compare)
     }
 }
 
-static void *avl__search_internal(AVL_Tree *tree, void *key)
+__attribute__((visibility("hidden")))
+void *avl__search_internal(AVL_Tree *tree, void *key)
 {
     if(!tree || !key)
     {
@@ -306,8 +307,8 @@ static Node *remove_node(Node *root, void *key, Compare_Func compare, size_t siz
     return rebalance(root, key, compare);
 }
 
-
-static int avl__remove_internal(AVL_Tree *tree, void *key)
+__attribute__((visibility("hidden")))
+int avl__remove_internal(AVL_Tree *tree, void *key)
 {   
     if(!tree || !tree->root || !key)
     {
@@ -320,31 +321,6 @@ static int avl__remove_internal(AVL_Tree *tree, void *key)
 }
 
 // ============================ Traversal Functions ======================================
-
-static void traverse__tree_internal(AVL_Tree *tree, TraverseAction action, char type)
-{
-    if(!tree || !action)
-    {
-        return;
-    }
-
-    if(type == 'i')
-    {
-        inorder_traversal(tree->root, action);
-    }
-    else if(type == 'r')
-    {
-        preorder_traversal(tree->root, action);
-    }
-    else if(type == 'o')
-    {
-        postorder_traversal(tree->root, action);
-    }
-    else
-    {
-        fprintf(stderr, "Wrong traversal type.\n");
-    }
-}
 
 static void inorder_traversal(Node *node, TraverseAction action)
 {
@@ -379,6 +355,31 @@ static void postorder_traversal(Node *node, TraverseAction action)
     postorder_traversal(node, action);
 
     action(node->data);
+}
+
+__attribute__((visibility("hidden")))
+void avl__traverse_internal(AVL_Tree *tree, TraverseAction action, Traverse_Type type)
+{
+    if(!tree || !action)
+    {
+        return;
+    }
+
+    switch(type)
+    {
+        case TRAVERSE_INORDER:
+            inorder_traversal(tree->root, action);
+            break;
+        case TRAVERSE_POSTORDER:
+            postorder_traversal(tree->root, action);
+            break;
+        case TRAVERSE_PREORDER:
+            preorder_traversal(tree->root, action);
+            break;
+        default:
+            fprintf(stderr, "Wrong traversal type.\n");
+            return;
+    }
 }
 
 // ================================= Find Min and Find Max Functions ==========================================
