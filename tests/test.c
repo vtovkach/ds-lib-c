@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "tree.h"
+#include "../include/tree.h"
 
 
 int compare(void *left_ptr, void *right_ptr)
