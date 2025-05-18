@@ -1,11 +1,10 @@
 
 # Ignore build output
 
-
 .vscode/
 
-.lib/ 
+.bin/ 
 
 .build/ 
 
-.bin/ 
+.lib/ 
