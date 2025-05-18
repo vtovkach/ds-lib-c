@@ -12,7 +12,7 @@ typedef struct Node
     struct Node  *nextNode;
 } Node;
 
-typedef struct 
+typedef struct HashTable
 {
     size_t          value_size;         // Size of a single data block for the value (in bytes)
     size_t          key_size;           // Size of a single data block for the key (in bytes)
@@ -117,22 +117,22 @@ HashTable *ht_create(size_t key_size, size_t key_blocks, size_t value_size, size
     return hash;
 }
 
-void ht_destroy(HashTable *hash_table)
+void ht_destroy(HashTable *hashtable)
 {
-    if(hash_table == NULL)
+    if(hashtable == NULL)
     {
         // Nothing to destroy
         return;
     }
 
     // Free all linked lists in each bucket 
-    for(int i = 0; i < hash_table->hash_table_size; ++i)
+    for(unsigned int i = 0; i < hashtable->hash_table_size; ++i)
     {
-        destroy_linked_list(hash_table->hash_table[i]);
+        destroy_linked_list(hashtable->hash_table[i]);
     }
     
-    free(hash_table->hash_table);  // free the array of Node* pointers 
-    free(hash_table);              // free the HashTable structure itself 
+    free(hashtable->hash_table);  // free the array of Node* pointers 
+    free(hashtable);              // free the HashTable structure itself 
 
     return;
 }
