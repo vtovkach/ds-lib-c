@@ -7,7 +7,7 @@ SRC := $(wildcard src/*.c)
 OBJ := $(patsubst src/%.c, build/%.o, $(SRC))
 
 # Static library output 
-LIB := lib/ds_lib.a
+LIB := lib/libds_lib.a
 
 #Test sources and binaries 
 TEST_SRC := $(wildcard tests/*.c)
@@ -31,7 +31,7 @@ compile-tests: $(TEST_BIN)
 # Pattern rule to compile each test source to an executable
 bin/%: tests/%.c $(LIB)
 	@mkdir -p bin
-	$(CC) $(CFLAGS) $< -Llib -lmylib -o $@
+	$(CC) $(CFLAGS) $< -Llib -lds_lib -o $@
 
 clean:
 	rm -rf build lib bin
