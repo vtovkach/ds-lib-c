@@ -7,7 +7,7 @@ SRC := $(wildcard src/*.c)
 OBJ := $(patsubst src/%.c, build/%.o, $(SRC))
 
 # Static library output 
-LIB := lib/libmylib.a
+LIB := lib/ds_lib.a
 
 #Test sources and binaries 
 TEST_SRC := $(wildcard tests/*.c)
