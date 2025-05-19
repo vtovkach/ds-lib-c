@@ -247,7 +247,7 @@ int ht__remove_internal(HashTable *hash, const void *key)
     return 0;
 }
 
-const void *ht__get_internal(const HashTable *hash, const void *key, size_t bytes)
+void *ht__get_internal(const HashTable *hash, const void *key, size_t bytes)
 {   
     // Check function's arguments 
     if(!hash || !key)

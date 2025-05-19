@@ -33,7 +33,7 @@ int main(void)
     int a = *(int *)ht_get(hash, 'a', 1);
     int b = *(int *)ht_get(hash, 'b', 1);
     int c = *(int *)ht_get(hash, 'c', 1);
-    void *d = ht_get(hash, 't', 1);; 
+    void *d = ht_get(hash, 't', 1);
     int result = -1;
     if(d)
         result = *(int *)d;

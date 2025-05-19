@@ -29,7 +29,7 @@ void print_data(void *data)
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
     AVL_Tree *tree = avl_create(sizeof(int), 1, compare);
 

@@ -19,7 +19,7 @@ int ht__insert_internal(HashTable *hashtable, const void *key, const void *value
 
 int ht__remove_internal(HashTable *hashtable, const void *key);
 
-const void *ht__get_internal(const HashTable *hashtable, const void *key, size_t bytes_comp);
+void *ht__get_internal(const HashTable *hashtable, const void *key, size_t bytes_comp);
 
 // ================================ Public API ==================================
 
