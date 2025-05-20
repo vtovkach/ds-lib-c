@@ -67,6 +67,36 @@ static void bottom_up_heapify(Heap *heap, int cur_idx)
     return;
 }
 
+// Heapify for removing
+static void top_bottom_heapify(Heap *heap, int cur_idx)
+{
+    int largest = cur_idx;  
+    int left = cur_idx * 2 + 1;     // Left child index
+    int right = cur_idx * 2 + 2;    // Right child index
+
+    // Check if left child exists and is greater than the current item
+    if(left < heap->current_index && heap->cmp_func(heap->heaparray, left, largest) == 1)
+    {
+        largest = left;
+    }
+
+    // Check if right child exists and is greater than the current largest
+    if(right < heap->current_index && heap->cmp_func(heap->heaparray, right, largest) == 1)
+    {
+        largest = right;
+    }
+
+    if(largest != cur_idx)
+    {   
+        // Perform Swap 
+        swap((uint8_t*)heap->heaparray + cur_idx * heap->data_size, (uint8_t*)heap->heaparray + largest * heap->data_size, heap->data_size);
+        
+        // Continue heapifying at the new position
+        top_bottom_heapify(heap, largest);
+    }
+
+    return;
+}
 
 static size_t resize(void **ptr, size_t data_size, size_t current_size)
 {
@@ -93,7 +123,7 @@ static size_t resize(void **ptr, size_t data_size, size_t current_size)
 // ============================= PRIMARY FUNCTIONS ====================================
 
 // Initialize Heap Function  
-Heap *initHeap(size_t data_size, int heap_size, CompareFunc comp_func)
+Heap *hp_init(size_t data_size, int heap_size, CompareFunc comp_func)
 {
     // Input: requested num_elem for the heap
     // Output: pointer to the heap data structure 
@@ -147,3 +177,122 @@ Heap *initHeap(size_t data_size, int heap_size, CompareFunc comp_func)
     return heapptr;
 }
 
+int hp__insert_internal(Heap *heap, void *data)
+{
+    // Return  0 if success 
+    // return -1 if error
+
+    if(heap == NULL)
+    {
+        fprintf(stderr, "Error! Heap does not exist!\n");
+        return -1;
+    }
+
+    if(heap->current_index > heap->heap_size - 1)
+    {   
+        // Make array twice larger
+        size_t new_size = resize(&heap->heaparray, heap->data_size, heap->heap_size);
+
+        if(new_size == 0)
+        {
+            fprintf(stderr, "Error allocating more memory for the heap!\n");
+            return -1;
+        }
+        heap->heap_size = new_size;
+    }   
+
+    memcpy((uint8_t*)heap->heaparray + (heap->current_index * heap->data_size), data, heap->data_size);
+
+    bottom_up_heapify(heap, heap->current_index);
+
+    heap->current_index++;
+    heap->num_elements++;
+
+    return 0;
+}
+
+int hp__remove_top_internal(Heap *heap)
+{   
+    // Purpose: remove item from the top of the heap
+    // Input pointer to heap & pointer to user-built compare function
+    // Output: 0 if success, -1 if failure 
+
+    if(heap == NULL)
+    {
+        fprintf(stderr, "Error! Heap does not exist!\n");
+        return -1;
+    }
+
+    // Check if heap is empty
+    if(heap->current_index == 0)
+    {
+        fprintf(stderr, "Heap is empty, return -1.\n");
+        return -1;
+    }
+
+    // Cast heap array to be able to perform pointer arithmetic 
+    uint8_t *heaparr = (uint8_t*)heap->heaparray;
+
+    // Move the lowest item of the heap to the top 
+    memcpy(heaparr, heaparr + (heap->current_index - 1) * heap->data_size, heap->data_size);
+
+    heap->current_index--;
+    heap->num_elements--;
+    // Perform top bottom heapification
+    top_bottom_heapify(heap, 0);
+
+    return 0;
+}
+
+void *hp_peek(Heap *heap, void *dest_ptr)
+{
+    // Input: pointer to heap, void* to a memory to save top value  
+    // Output: assign void* to a data from the top of the heap
+
+    if(heap == NULL)
+    {
+        fprintf(stderr, "Error! Heap does not exist!\n");
+        return -1;
+    }
+
+    // Check if heap is empty
+    if(heap->current_index == 0)
+    {
+        fprintf(stderr, "The heap is empty!");
+        return -1;
+    }
+    
+    memcpy(dest_ptr, (uint8_t*)heap->heaparray + 0 * heap->data_size, heap->data_size);
+
+    return 0;
+}
+
+void hp_destroy(Heap *heap)
+{
+    if(heap == NULL)
+    {
+        fprintf(stderr, "Error! Heap does not exist!\n");
+        return;
+    }
+    // Deallocation //
+    free(heap->heaparray);
+    free(heap);
+}
+
+
+
+// Functions for development Stage 
+
+// Just for developmental purpose, it will be removed 
+typedef void (*PrintFunc)(const void *heaparr, size_t size);
+
+// Here I will need a pointer to a function that will handle specific data type 
+void displayData(Heap *heap, PrintFunc print)
+{
+    if(heap == NULL)
+    {
+        fprintf(stderr, "Error! Heap does not exist!\n");
+        return;
+    }
+    print(heap->heaparray, heap->current_index);
+}
