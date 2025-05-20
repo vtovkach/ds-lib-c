@@ -1,6 +1,8 @@
 #ifndef _HEAP_
 #define _HEAP_ 
 
+#include <stddef.h>
+
 typedef struct Heap Heap; 
 
 // pointer to user-built compare funciton

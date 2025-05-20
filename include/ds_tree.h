@@ -1,6 +1,8 @@
 #ifndef _TREE_
 #define _TREE_
 
+#include <stddef.h>
+
 typedef int (*Compare_Func)(void *left, void *right);
 typedef void (*TraverseAction)(void *data);
 

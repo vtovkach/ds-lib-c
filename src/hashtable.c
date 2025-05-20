@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/hashtable.h"
+#include "../include/ds_hashtable.h"
 
 
 typedef struct Node

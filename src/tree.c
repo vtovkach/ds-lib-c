@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../include/tree.h"
+#include "../include/ds_tree.h"
 
 typedef struct Node
 {
@@ -342,17 +342,17 @@ static void preorder_traversal(Node *node, TraverseAction action)
 
     action(node->data);
 
-    preorder_traversal(node, action);
+    preorder_traversal(node->left, action);
 
-    preorder_traversal(node, action);
+    preorder_traversal(node->right, action);
 }
 
 static void postorder_traversal(Node *node, TraverseAction action)
 {
     if(!node) return;
     
-    postorder_traversal(node, action);
-    postorder_traversal(node, action);
+    postorder_traversal(node->left, action);
+    postorder_traversal(node->right, action);
 
     action(node->data);
 }

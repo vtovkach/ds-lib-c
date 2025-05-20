@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "../include/heap.h"
+#include "../include/ds_heap.h"
 
 typedef struct Heap
 {   

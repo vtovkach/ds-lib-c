@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "../include/heap.h"
+#include "../include/ds_heap.h"
 
 // For a min-heap: return 1 if child < parent
 int int_min_compare(const void *arr, int child_idx, int parent_idx) {

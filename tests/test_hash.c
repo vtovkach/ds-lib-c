@@ -1,11 +1,10 @@
 #include <stdio.h>
 
-#include "../include/hashtable.h"
+#include "../include/ds_hashtable.h"
 
 #define STRING_SIZE 100
 
 
-// Error with compound literal string input 
 
 // I will use char datatype 
 unsigned int hash_function(const void *key, unsigned int ht_size)
