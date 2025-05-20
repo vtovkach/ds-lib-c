@@ -5,11 +5,6 @@
 
 #include "../include/heap.h"
 
-/* ===============  Potential Improvements  ==================== */
-
-// 1.) Use loops instead of recursion 
-// 
-
 typedef struct Heap
 {   
     void   *heaparray;          // 0-indexed array
@@ -31,6 +26,7 @@ static void swap(void *dest1, void *dest2, size_t bytes)
     // Check for malloc failure 
     if(temp == NULL)
     {
+
         return;
     }
 
@@ -267,21 +263,4 @@ void hp_destroy(Heap *heap)
     // Deallocation //
     free(heap->heaparray);
     free(heap);
-}
-
-
-
-// Functions for development Stage 
-
-// Just for developmental purpose, it will be removed 
-//typedef void (*PrintFunc)(const void *heaparr, size_t size);
-
-// Here I will need a pointer to a function that will handle specific data type 
-void displayData(Heap *heap, PrintFunc print)
-{
-    if(heap == NULL)
-    {
-        return;
-    }
-    print(heap->heaparray, heap->current_index);
 }
