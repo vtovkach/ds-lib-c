@@ -10,7 +10,7 @@
 // 1.) Use loops instead of recursion 
 // 
 
-typedef struct
+typedef struct Heap
 {   
     void   *heaparray;          // 0-indexed array
     int     heap_size;          // Max number of elements in the heap 
@@ -31,7 +31,6 @@ static void swap(void *dest1, void *dest2, size_t bytes)
     // Check for malloc failure 
     if(temp == NULL)
     {
-        fprintf(stderr, "Swap. Error allocating memory!\n");
         return;
     }
 
@@ -104,11 +103,8 @@ static size_t resize(void **ptr, size_t data_size, size_t current_size)
 
     size_t new_size = current_size * 2;
 
-    printf("New Size is %zu\n", new_size);
-
     void *temp = realloc(*ptr, new_size * data_size);
 
-    printf("I am here resizing!\n");
 
     if(temp == NULL)
     {
@@ -131,20 +127,17 @@ Heap *hp_init(size_t data_size, int heap_size, CompareFunc comp_func)
     // Check if the num_elem != 0
     if(heap_size == 0)
     {
-        fprintf(stderr, "The input num_elem is 0. No heap will be created!\n");
         return NULL;
     }
     
     // Check if data size is invalid 
     if(data_size == 0)
     {
-        fprintf(stderr, "Data Size is 0 bytes. Quit.\n");
-        return; 
+        return NULL; 
     }
 
     if(!comp_func)
     {
-        fprintf(stderr, "Compare function is null. Quit.\n");
         return NULL;
     }
 
@@ -153,7 +146,6 @@ Heap *hp_init(size_t data_size, int heap_size, CompareFunc comp_func)
 
     if(heapptr == NULL)
     {
-        fprintf(stderr, "Error allocating memory for heap.\n");
         return NULL;
     }
 
@@ -163,7 +155,6 @@ Heap *hp_init(size_t data_size, int heap_size, CompareFunc comp_func)
 
     if(heapptr->heaparray == NULL)
     {
-        fprintf(stderr, "Error allocating memory for heap.\n");
         free(heapptr);
         return NULL;
     }
@@ -173,6 +164,7 @@ Heap *hp_init(size_t data_size, int heap_size, CompareFunc comp_func)
     heapptr->heap_size = heap_size;
     heapptr->data_size = data_size;
     heapptr->cmp_func = comp_func;
+    heapptr->num_elements = 0;
 
     return heapptr;
 }
@@ -184,7 +176,6 @@ int hp__insert_internal(Heap *heap, void *data)
 
     if(heap == NULL)
     {
-        fprintf(stderr, "Error! Heap does not exist!\n");
         return -1;
     }
 
@@ -195,7 +186,6 @@ int hp__insert_internal(Heap *heap, void *data)
 
         if(new_size == 0)
         {
-            fprintf(stderr, "Error allocating more memory for the heap!\n");
             return -1;
         }
         heap->heap_size = new_size;
@@ -211,7 +201,7 @@ int hp__insert_internal(Heap *heap, void *data)
     return 0;
 }
 
-int hp__remove_top_internal(Heap *heap)
+int hp_remove_top(Heap *heap)
 {   
     // Purpose: remove item from the top of the heap
     // Input pointer to heap & pointer to user-built compare function
@@ -219,14 +209,12 @@ int hp__remove_top_internal(Heap *heap)
 
     if(heap == NULL)
     {
-        fprintf(stderr, "Error! Heap does not exist!\n");
         return -1;
     }
 
     // Check if heap is empty
     if(heap->current_index == 0)
     {
-        fprintf(stderr, "Heap is empty, return -1.\n");
         return -1;
     }
 
@@ -244,21 +232,19 @@ int hp__remove_top_internal(Heap *heap)
     return 0;
 }
 
-void *hp_peek(Heap *heap, void *dest_ptr)
+int hp_peek(Heap *heap, void *dest_ptr)
 {
     // Input: pointer to heap, void* to a memory to save top value  
     // Output: assign void* to a data from the top of the heap
 
     if(heap == NULL)
     {
-        fprintf(stderr, "Error! Heap does not exist!\n");
         return -1;
     }
 
     // Check if heap is empty
     if(heap->current_index == 0)
     {
-        fprintf(stderr, "The heap is empty!");
         return -1;
     }
     
@@ -267,11 +253,15 @@ void *hp_peek(Heap *heap, void *dest_ptr)
     return 0;
 }
 
+int hp_get_size(Heap *heap)
+{
+    return heap ? heap->num_elements : -1;
+}
+
 void hp_destroy(Heap *heap)
 {
     if(heap == NULL)
     {
-        fprintf(stderr, "Error! Heap does not exist!\n");
         return;
     }
     // Deallocation //
@@ -284,14 +274,13 @@ void hp_destroy(Heap *heap)
 // Functions for development Stage 
 
 // Just for developmental purpose, it will be removed 
-typedef void (*PrintFunc)(const void *heaparr, size_t size);
+//typedef void (*PrintFunc)(const void *heaparr, size_t size);
 
 // Here I will need a pointer to a function that will handle specific data type 
 void displayData(Heap *heap, PrintFunc print)
 {
     if(heap == NULL)
     {
-        fprintf(stderr, "Error! Heap does not exist!\n");
         return;
     }
     print(heap->heaparray, heap->current_index);
