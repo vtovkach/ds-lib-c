@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "../include/stack.h"
 
@@ -57,12 +58,18 @@ int stk_push(Stack *stk_ptr, void *data)
     // Check if stack has enough space 
     if(stk_ptr->num_elements == stk_ptr->capacity)
     {
-        // realloc array with double size 
+        // double the capacity of the stack 
+        void *new_arr = realloc(stk_ptr->stack_arr, stk_ptr->capacity * stk_ptr->data_size * 2);
+        if(!new_arr)
+            return -1; 
+
+        stk_ptr->stack_arr = new_arr;
+        stk_ptr->capacity *= 2; 
     }
 
     stk_ptr->top_index++;
-
-    memcpy(stk_ptr->stack_arr + stk_ptr->top_index * stk_ptr->data_size, data, stk_ptr->data_size);
+    
+    memcpy((uint8_t *)stk_ptr->stack_arr + stk_ptr->top_index * stk_ptr->data_size, data, stk_ptr->data_size);
 
     stk_ptr->num_elements++;
 
@@ -82,6 +89,114 @@ int stk_pop(Stack *stk_ptr, void *dest_ptr)
 
     stk_ptr->top_index--;
     stk_ptr->num_elements--;
+
+    return 0;
+}
+
+int peek(Stack *stk_ptr, void *dest_ptr)
+{
+    if(!stk_ptr || !dest_ptr)
+        return -1;
+
+    // Stack is empty 
+    if(stk_ptr->num_elements == 0)
+        return - 1;  
+
+    memcpy(dest_ptr, (uint8_t *)stk_ptr->stack_arr + stk_ptr->top_index * stk_ptr->data_size, stk_ptr->data_size);
+
+    return 0; 
+}
+
+unsigned int stk_size(Stack *stk_ptr)
+{
+    return !stk_ptr ? 0 : stk_ptr->num_elements;
+}
+
+bool stk_empty(Stack *stk_ptr)
+{
+    return !stk_ptr || stk_ptr->num_elements == 0;
+}
+
+unsigned int stk_capacity(Stack *stk_ptr)
+{
+    return !stk_ptr ? 0 : stk_ptr->capacity;
+}
+
+int stk_clear(Stack *stk_ptr)
+{
+    if(!stk_ptr)
+        return -1; 
+
+    if(stk_ptr->num_elements == 0)
+        return 0; // already empty 
+    
+    stk_ptr->top_index = -1;
+    stk_ptr->num_elements = 0; 
+
+    return 0; 
+}
+
+int stk_reverse(Stack *stk_ptr)
+{
+    if(!stk_ptr)
+        return -1; 
+    
+    // empty or only single element 
+    if(stk_ptr->num_elements == 0 || stk_ptr->top_index == 0)
+        return 0; 
+
+    void *stk_array = stk_ptr->stack_arr;
+    size_t data_size = stk_ptr->data_size;
+
+    unsigned int i = 0; 
+    unsigned int j = stk_ptr->top_index;
+
+    void *temp = malloc(data_size);
+    if(!temp)
+        return -1; 
+        
+    while(i < j)
+    {
+        uint8_t *ptr_left = stk_array + data_size * i; 
+        uint8_t *ptr_right = stk_array + data_size * j; 
+        
+        memcpy(temp, ptr_left, data_size);
+
+        memcpy(ptr_left, ptr_right, data_size);
+        memcpy(ptr_right, temp, data_size);
+
+        i++;
+        j--;
+    }
+    free(temp);
+
+    return 0;
+}
+
+// If stack is empty, this function is equivalent to stack destroy.
+int stk_shrink(Stack **stk_ptr_ref)
+{
+    if(!stk_ptr_ref || !*stk_ptr_ref)
+        return -1;
+    
+    Stack *stk_ptr = *stk_ptr_ref;
+    // If stack is empty then free the entire stack 
+    if(stk_ptr->num_elements == 0)
+    {
+        free(stk_ptr->stack_arr);
+        free(stk_ptr);
+        *stk_ptr_ref = NULL;
+        return 1; 
+    }
+
+    // Shrink array to the current number of elements 
+    void *new_arr = realloc(stk_ptr->stack_arr, stk_ptr->data_size * stk_ptr->num_elements);
+    if(!new_arr)
+        return -1; 
+
+    stk_ptr->stack_arr = new_arr;
+
+    stk_ptr->capacity = stk_ptr->num_elements;
 
     return 0;
 }
