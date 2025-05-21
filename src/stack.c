@@ -6,7 +6,6 @@
 
 #include "../include/stack.h"
 
-// finish push 
 
 typedef struct Stack
 {
@@ -49,7 +48,7 @@ void stk_destroy(Stack *stk_ptr)
     free(stk_ptr);
 }
 
-int stk_push(Stack *stk_ptr, void *data)
+int stk__push_internal(Stack *stk_ptr, void *data)
 {
     // Validate input 
     if(!stk_ptr || !data)
@@ -154,7 +153,7 @@ int stk_reverse(Stack *stk_ptr)
     void *temp = malloc(data_size);
     if(!temp)
         return -1; 
-        
+
     while(i < j)
     {
         uint8_t *ptr_left = stk_array + data_size * i; 
