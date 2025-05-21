@@ -7,16 +7,17 @@
 typedef struct Stack Stack;
 
 
-Stack *stk_init();
+Stack *stk_init(unsigned int init_size, size_t data_size);
 
-void stk_destroy();
+void stk_destroy(Stack *stk_ptr);
 
-int push();
+int stk_push(Stack *stk_ptr, void *data);
 
-void *pop();
 
-// request pointer from the user to copy the data 
-void *peek();
+int stk_pop(Stack *stk_ptr, void *dest_ptr);
+
+int *peek(Stack *stk_ptr, void *dest_ptr);
+
 
 unsigned int stk_size();
 
@@ -30,6 +31,5 @@ int stk_reverse();
 
 // free unused memory
 int stk_shrink();
-
 
 #endif
