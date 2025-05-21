@@ -25,13 +25,13 @@ void *ht__get_internal(const HashTable *hashtable, const void *key, size_t bytes
 
 
 #define ht_insert(hashtable, key, value) \
-    ht__insert_internal((hashtable), &(__typeof__(key)){(key)}, &(__typeof__(value)){(value)});
+    ht__insert_internal((hashtable), &(__typeof__(key)){(key)}, &(__typeof__(value)){(value)})
 
 #define ht_remove(hashtable, key) \
-    ht__remove_internal((hashtable), &(__typeof__(key)){(key)});
+    ht__remove_internal((hashtable), &(__typeof__(key)){(key)})
 
 #define ht_get(hashtable, key, bytes_comp)    \
-    ht__get_internal((hashtable), &(__typeof__(key)){(key)}, bytes_comp);
+    ht__get_internal((hashtable), &(__typeof__(key)){(key)}, bytes_comp)
 
 
 #endif 
