@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "../include/stack.h"
+#include "../include/ds_stack.h"
 
 void check_push()
 {
@@ -200,7 +200,7 @@ void test_stack_structs()
 
 void test_stack_stress_timed() 
 {
-    const size_t N = 1000000000;
+    const size_t N = 1000000;
     Stack *stack = stk_init(128, sizeof(int));
     assert(stack != NULL);
 

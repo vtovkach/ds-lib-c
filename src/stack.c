@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "../include/stack.h"
+#include "../include/ds_stack.h"
 
 
 typedef struct Stack
