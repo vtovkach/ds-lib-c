@@ -47,3 +47,23 @@ void q_destroy(Queue *q_ptr)
     free(q_ptr->queue_arr);
     free(q_ptr);
 }
+
+
+int q_enqueue(Queue *q_ptr, void *data)
+{
+    if(!q_ptr || !data)
+        return -1;
+    
+    if(q_ptr->num_elements == q_ptr->capacity)
+    {
+        // double the size 
+    }
+
+    
+    int rear = (q_ptr->rear + 1) % q_ptr->capacity;
+    
+
+    memcpy();
+
+    return 0; 
+}
