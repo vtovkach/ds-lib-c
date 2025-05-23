@@ -5,7 +5,6 @@
 
 #include "../include/ds_queue.h"
 
-// Fix resizing error in circular queue 
 
 typedef struct Queue
 {
@@ -28,7 +27,7 @@ Queue *q_init(size_t init_size, size_t data_size)
     if(!new_queue)
         return NULL;
     
-    new_queue->queue_arr = calloc(init_size, data_size);
+    new_queue->queue_arr = malloc(init_size * data_size);
     if(!new_queue->queue_arr)
     {
         free(new_queue);
@@ -59,19 +58,48 @@ int q__enqueue(Queue *q_ptr, void *data)
     if(!q_ptr || !data)
         return -1;
     
-
-    /// FIX ERROR HERE 
+    // Resize queue if full
     if(q_ptr->num_elements == q_ptr->capacity)
     {
-        // double the size 
-        size_t new_size = q_ptr->capacity * q_ptr->data_size * 2;
+        // Perform regular resizing 
+        if(q_ptr->front <= q_ptr->rear)
+        {
+            // double the size 
+            size_t new_size = q_ptr->capacity * q_ptr->data_size * 2;
 
-        void *new_arr = realloc(q_ptr->queue_arr, new_size);
-        if(!new_arr)
-            return 2; // Indicate that queue is full and can't be resized 
-        
-        q_ptr->queue_arr = new_arr;
-        q_ptr->capacity *= 2; 
+            void *new_arr = realloc(q_ptr->queue_arr, new_size);
+            if(!new_arr)
+                return 2; // Indicate that queue is full and can't be resized 
+            
+            q_ptr->queue_arr = new_arr;
+            q_ptr->capacity *= 2;
+        }
+        // Handle wraparound issue 
+        else
+        {
+            // double the size 
+            size_t data_size = q_ptr->data_size;
+            size_t new_size = q_ptr->capacity * data_size * 2;
+            
+            void *new_arr = malloc(new_size);
+            if(!new_arr)
+                return 2; // Indicate that queue is full and can't be resized 
+            
+            int front = q_ptr->front;
+            for(size_t i = 0; i < q_ptr->num_elements; i++, front = (front + 1) % q_ptr->capacity)
+            {
+                // copy elements from queue to temporarly buffer 
+                memcpy((uint8_t *)new_arr + i * data_size, (uint8_t *)q_ptr->queue_arr + front * data_size, data_size);
+            }   
+
+            free(q_ptr->queue_arr);
+            q_ptr->queue_arr = new_arr;
+
+            q_ptr->queue_arr = new_arr;
+            q_ptr->capacity *= 2;
+            q_ptr->front = 0;
+            q_ptr->rear = q_ptr->num_elements - 1; 
+        }
     }
 
     if(q_ptr->num_elements == 0)
