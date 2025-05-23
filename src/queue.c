@@ -50,8 +50,6 @@ void q_destroy(Queue *q_ptr)
 }
 
 
-// Finish double quueu condition 
-
 int q__enqueue(Queue *q_ptr, void *data)
 {
     // Validate Input 
@@ -88,7 +86,7 @@ int q__enqueue(Queue *q_ptr, void *data)
             int front = q_ptr->front;
             for(size_t i = 0; i < q_ptr->num_elements; i++, front = (front + 1) % q_ptr->capacity)
             {
-                // copy elements from queue to temporarly buffer 
+                // copy elements from old queue to a new queue 
                 memcpy((uint8_t *)new_arr + i * data_size, (uint8_t *)q_ptr->queue_arr + front * data_size, data_size);
             }   
 
