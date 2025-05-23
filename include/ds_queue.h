@@ -10,7 +10,7 @@ Queue *q_init(size_t initial_capacity, size_t data_size);
 
 void q_destroy(Queue *q_ptr);
 
-int q_enqueue(Queue *q_ptr, void *data);
+int q__enqueue(Queue *q_ptr, void *data);
 
 int q_dequeue(Queue *q_ptr, void *dest);
 
@@ -25,6 +25,9 @@ int q_empty(Queue *q_ptr);
 int q_full(Queue *q_ptr);
 
 int q_clear(Queue *q_ptr);
+
+#define q_enqueue(q_ptr, data_type, data) \
+     q__enqueue(q_ptr, &(data_type){(data)})
 
 
 #endif
