@@ -10,21 +10,21 @@ Queue *q_init(size_t initial_capacity, size_t data_size);
 
 void q_destroy(Queue *q_ptr);
 
-int q_enqueue();
+int q_enqueue(Queue *q_ptr, void *data);
 
-int q_dequeue();
+int q_dequeue(Queue *q_ptr, void *dest);
 
-int q_peek();
+int q_peek(Queue *q_ptr, void *dest);
 
-size_t q_size();
+size_t q_size(Queue *q_ptr);
 
-size_t q_capacity();
+size_t q_capacity(Queue *q_ptr);
 
-int q_empty();
+int q_empty(Queue *q_ptr);
 
-int q_full();
+int q_full(Queue *q_ptr);
 
-int q_clear();
+int q_clear(Queue *q_ptr);
 
 
 #endif
