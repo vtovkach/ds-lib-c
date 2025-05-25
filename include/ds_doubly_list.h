@@ -20,7 +20,7 @@ int d_l_pop_front(D_List *l_ptr, void *dest);
 
 int d_l_pop_back(D_List *l_ptr, void *dest);
 
-int d_l_pop_at(D_List *l_ptr, void *data, size_t index);
+int d_l_pop_at(D_List *l_ptr, void *dest, size_t index);
 
 int l_peek_front(D_List *l_ptr, void *dest);
 
