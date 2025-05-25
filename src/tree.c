@@ -111,8 +111,8 @@ static Node *right_rotate(Node *node)
     node->left = root->right;
     root->right = node;
 
-    node->height = 1 + max(get_height(node->left), get_height(node->right));
-    root->height = 1 + max(get_height(root->left), get_height(root->right));
+    node->height = 1 + (max(get_height(node->left), get_height(node->right)));
+    root->height = 1 + (max(get_height(root->left), get_height(root->right)));
 
     return root;
 }
@@ -123,8 +123,8 @@ static Node *left_rotate(Node *node)
     node->right = root->left;
     root->left = node;
 
-    node->height = 1 + max(get_height(node->left), get_height(node->right));
-    root->height = 1 + max(get_height(root->left), get_height(root->right));
+    node->height = 1 + (max(get_height(node->left), get_height(node->right)));
+    root->height = 1 + (max(get_height(root->left), get_height(root->right)));
 
     return root;
 }
@@ -179,7 +179,7 @@ static Node* insert_node(Node *node, Node *new_node, Compare_Func compare)
     }
 
     // Update height 
-    node->height = 1 + max(get_height(node->right), get_height(node->left));
+    node->height = 1 + (max(get_height(node->right), get_height(node->left)));
 
     // Rebalance if needed 
     node = rebalance(node, new_node->data, compare);
@@ -301,8 +301,8 @@ static Node *remove_node(Node *root, void *key, Compare_Func compare, size_t siz
     }
 
     // Update height
-    root->height = 1 + max(get_height(root->left), get_height(root->right));
-
+    root->height = 1 + (max(get_height(root->left), get_height(root->right)));
+    
     // Rebalance
     return rebalance(root, key, compare);
 }
