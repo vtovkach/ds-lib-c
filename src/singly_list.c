@@ -56,16 +56,6 @@ void list_destroy(List *l_ptr)
     free(l_ptr);
 }
 
-Node *l_get_front(List *l_ptr)
-{
-    return !l_ptr ? NULL : l_ptr->front;
-}
-
-Node *l_get_rear(List *l_ptr)
-{
-    return !l_ptr ? NULL : l_ptr->rear;
-}
-
 int l__push_front(List *l_ptr, void *data)
 {
     if(!l_ptr || !data)
