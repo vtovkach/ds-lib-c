@@ -5,15 +5,9 @@
 
 typedef struct List List; 
 
-typedef struct Node Node;
-
 List *list_init(size_t data_size);
 
 void list_destroy(List *l_ptr);
-
-Node *l_get_front(List *l_ptr);
-
-Node *l_get_rear(List *l_ptr);
 
 int l__push_front(List *l_ptr, void *data);
 
