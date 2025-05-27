@@ -243,6 +243,35 @@ void test_list_utilities()
     d_list_destroy(list);
 }
 
+void test_macro_push_wrappers() 
+{
+    D_List *list = d_list_init(sizeof(int));
+    assert(list);
+
+    int out;
+
+    // === Push to front
+    dl_push_front(list, int, 10);  // list: [10]
+    dl_push_front(list, int, 20);  // list: [20, 10]
+
+    // === Push to back
+    dl_push_back(list, int, 30);   // list: [20, 10, 30]
+    dl_push_back(list, int, 40);   // list: [20, 10, 30, 40]
+
+    // === Push at index
+    dl_push_at(list, int, 99, 2);  // list: [20, 10, 99, 30, 40]
+
+    // === Validate all values
+    int expected[] = {20, 10, 99, 30, 40};
+    for (size_t i = 0; i < sizeof(expected)/sizeof(expected[0]); ++i) {
+        out = -1;
+        assert(d_l_peek_at(list, &out, i) == 0);
+        assert(out == expected[i]);
+    }
+
+    d_list_destroy(list);
+}
+
 void test_d_list_brutal() 
 {
     printf("Starting brutal edge case tests for doubly linked list...\n");
@@ -384,6 +413,7 @@ int main(void)
     test_push_at_pop_at_edge_cases();
     test_list_utilities();
     test_d_list_brutal();
+    test_macro_push_wrappers();
     stress_test_insert_delete();
 
     printf("All tests have been passed.\n");
