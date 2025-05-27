@@ -213,7 +213,7 @@ int d_l_pop_front(D_List *l_ptr, void *dest)
 
 int d_l_pop_back(D_List *l_ptr, void *dest)
 {
-    if(!l_ptr)
+    if(!l_ptr || !dest)
         return -1; 
 
     if(l_ptr->num_elements == 0)
@@ -241,7 +241,7 @@ int d_l_pop_at(D_List *l_ptr, void *dest, size_t index)
 {
     if(!l_ptr || !dest)
         return -1; 
-
+    
     if(l_ptr->num_elements == 0)
         return 1; // List is empty 
 
@@ -272,4 +272,136 @@ int d_l_pop_at(D_List *l_ptr, void *dest, size_t index)
     l_ptr->num_elements--;
 
     return 0;
+}
+
+int d_l_peek_front(D_List *l_ptr, void *dest)
+{
+    if(!l_ptr || !dest)
+        return -1;
+
+    if(l_ptr->num_elements == 0)
+        return 1; // List is empty 
+
+    memcpy(dest, l_ptr->front->data, l_ptr->data_size);
+
+    return 0;
+}
+
+int d_l_peek_back(D_List *l_ptr, void *dest)
+{
+    if(!l_ptr || !dest)
+        return -1;
+
+    if(l_ptr->num_elements == 0)
+        return 1; // List is empty 
+
+    memcpy(dest, l_ptr->rear->data, l_ptr->data_size);
+
+    return 0;
+}
+
+int d_l_peek_at(D_List *l_ptr, void *dest, size_t index)
+{
+    if(!l_ptr || !dest)
+        return -1;
+
+    if(index >= l_ptr->num_elements)
+        return -2; // Index is out of bounds 
+
+
+    // Determine from which end of the list to approach the data
+
+    size_t mid_point = (l_ptr->num_elements - 1) / 2;
+    Node *cur_node = NULL;
+    size_t cur_index;
+
+    if(index > mid_point)
+    {   
+        cur_index = l_ptr->num_elements - 1; 
+        cur_node = l_ptr->rear;
+        while(cur_index > index)
+        {
+            cur_node =cur_node->prevptr;
+            cur_index--;
+        }
+    }
+    else
+    {
+        cur_node = l_ptr->front;
+        cur_index = 0;
+        while(cur_index < index)
+        {
+            cur_node = cur_node->nextptr;
+            cur_index++;
+        }
+    } 
+
+    memcpy(dest, cur_node->data, l_ptr->data_size);
+
+    return 0 ; 
+}
+
+int d_l_empty(D_List *l_ptr)
+{
+    return (!l_ptr || l_ptr->num_elements == 0) ? 1 : 0;
+}
+
+int d_l_clear(D_List *l_ptr)
+{
+    if(!l_ptr)
+        return -1;
+    
+    if(l_ptr->num_elements == 0)
+        return 0;
+
+    Node *cur_node = l_ptr->front;
+    while(cur_node) 
+    {
+        Node *next = cur_node->nextptr;
+        
+        free(cur_node->data);
+        free(cur_node);
+
+        cur_node = next;
+    }
+
+    l_ptr->front = NULL;
+    l_ptr->rear = NULL;
+
+    l_ptr->num_elements = 0;
+
+    return 0;
+}
+
+int d_l_reverse(D_List *l_ptr)
+{
+    if(!l_ptr)
+        return -1; 
+
+    if(l_ptr->num_elements < 2)
+        return 0;
+    
+    Node *cur_node = l_ptr->front;
+    Node *next_node = NULL;
+    while(cur_node)
+    {
+        // Update nodes
+        next_node = cur_node->nextptr;
+        cur_node->nextptr = cur_node->prevptr;
+        cur_node->prevptr = next_node;
+
+        // Update current node
+        cur_node = next_node;
+    }
+
+    Node *temp = l_ptr->front;
+    l_ptr->front = l_ptr->rear;
+    l_ptr->rear = temp;
+
+    return 0;
+}
+
+size_t d_l_size(D_List *l_ptr)
+{
+    return (!l_ptr) ? 0 : l_ptr->num_elements;
 }
