@@ -36,5 +36,13 @@ int d_l_reverse(D_List *l_ptr);
 
 size_t d_l_size(D_List *l_ptr);
 
+#define dl_push_front(l_ptr, data_type, data)          \
+    d_l__push_front(l_ptr, &(data_type){(data)})
+
+#define dl_push_back(l_ptr, data_type, data)           \
+    d_l__push_back(l_ptr, &(data_type){(data)})
+
+#define dl_push_at(l_ptr, data_type, data, index)      \
+    d_l__push_at(l_ptr, &(data_type){(data)}, index) 
 
 #endif 
