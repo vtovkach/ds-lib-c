@@ -1,9 +1,9 @@
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "../include/ds_doubly_list.h"
 
-// test push_at
 // test pop_at
 
 void test_init_destroy()
@@ -100,22 +100,102 @@ void test_push_at()
 {
     D_List *list = d_list_init(sizeof(int));
 
-    d_l__push_back(list, &(int){1});
-    d_l__push_back(list, &(int){2});
-    d_l__push_back(list, &(int){3});
-    d_l__push_back(list, &(int){4});
-    
-    //d_l__push_at(list, &(int){10}, 0);
-
-    int data = 0; 
-
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < 10; i++)
     {
-        printf("%d ", d_l_pop_at(list, &data, i));
+        d_l__push_at(list, &(int){i}, i);
+    }
+
+    for(int i = 0; i < 10; i++)
+    {
+        int dest = 0;
+        d_l_pop_front(list, &dest);
+        assert(dest == i);
     }
 
     d_list_destroy(list);
 }
+
+void test_pop_at()
+{
+    D_List *list = d_list_init(sizeof(int));
+
+    for(int i = 0; i < 10; i++)
+    {
+        d_l__push_at(list, &(int){i}, i);
+    }
+
+    int dest = 0; 
+
+    d_l_pop_at(list, &dest, 0);
+    assert(dest == 0);
+    
+    d_l_pop_at(list, &dest, 0);
+    assert(dest == 1);
+
+    d_l_pop_at(list, &dest, 0);
+    assert(dest == 2);
+
+    d_l_pop_at(list, &dest, 0);
+    assert(dest == 3);
+
+    d_list_destroy(list);
+}
+
+// Assume your header file is already included
+// #include "doubly_list.h"
+
+void test_push_at_pop_at_edge_cases() 
+{
+    D_List *list = d_list_init(sizeof(int));
+    assert(list != NULL);
+
+    int val, out;
+
+    // === Edge Case 1: pop_at from empty list ===
+    assert(d_l_pop_at(list, &out, 0) == 1);  // Should return "empty list"
+    assert(d_l_pop_at(list, &out, 100) == 1);
+
+    // === Edge Case 2: push_at at index 0 when list is empty ===
+    val = 5;
+    assert(d_l__push_at(list, &val, 0) == 0);  // Should succeed
+
+    // === Edge Case 3: push_at at invalid index > size ===
+    val = 10;
+    assert(d_l__push_at(list, &val, 5) == -2); // Invalid index
+
+    // === Edge Case 4: push_at at end of list ===
+    val = 15;
+    assert(d_l__push_at(list, &val, 1) == 0); // push at end (index == size)
+
+    // List now: [5, 15]
+
+    // === Edge Case 5: push_at at middle ===
+    val = 10;
+    assert(d_l__push_at(list, &val, 1) == 0); // Insert between 5 and 15
+
+    // List now: [5, 10, 15]
+
+    // === Edge Case 6: pop_at with invalid index ===
+    assert(d_l_pop_at(list, &out, 3) == -2);  // Index = size → invalid
+
+    // === Edge Case 7: pop_at first element ===
+    assert(d_l_pop_at(list, &out, 0) == 0);
+    assert(out == 5);
+
+    // === Edge Case 8: pop_at last element ===
+    assert(d_l_pop_at(list, &out, 1) == 0);  // index 1 now refers to last element (was 15)
+    assert(out == 15);
+
+    // === Edge Case 9: pop_at only remaining element ===
+    assert(d_l_pop_at(list, &out, 0) == 0);
+    assert(out == 10);
+
+    // === Edge Case 10: pop_at from now empty list ===
+    assert(d_l_pop_at(list, &out, 0) == 1);
+
+    d_list_destroy(list);
+}
+
 
 int main(void)
 {
@@ -123,6 +203,8 @@ int main(void)
     test_front_pop();
     test_pop_back();
     test_push_at();
+    test_pop_at();
+    test_push_at_pop_at_edge_cases();
 
     printf("All tests have been passed.\n");
 
