@@ -1,11 +1,13 @@
 #ifndef _DS_VECTOR_H
 #define _DS_VECTOR_H
 
+#include <stddef.h>
+
 typedef struct Vector Vector; 
 
 Vector *vec_create(size_t capacity, size_t, data_size);
 
-void *vec_destroy(Vector *vec);
+void vec_destroy(Vector *vec);
 
 int v_push_back(Vector *vec, void *data);
 
