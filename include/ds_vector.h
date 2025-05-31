@@ -29,7 +29,7 @@ int v_empty(Vector *vec);
 
 int v_clear(Vector *vec);
 
-int v_resize(Vector *vec, size_t new_size);
+int v_resize(Vector *vec, size_t new_capacity);
 
 int v_sort(Vector *vec, void (*cmp)(const void *, const void*));
 
