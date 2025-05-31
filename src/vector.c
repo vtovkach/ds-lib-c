@@ -84,3 +84,134 @@ int v_pop_back(Vector *vec)
     
     return 0;
 }
+
+int v_get(Vector *vec, void *dest, size_t index)
+{
+    if(!vec || !dest)
+        return -1; 
+    
+    if(index >= vec->num_elements)
+        return -2; // Indicate index out of bounds
+
+    // Copy data from internal vector array to user's space  
+    memcpy(dest, (uint8_t *)vec->vec_array + index * vec->data_size, vec->data_size);
+
+    return 0;
+}
+
+int v_set(Vector *vec, void *data, size_t index)
+{
+    if(!vec || !data)
+        return -1; 
+
+    if(index >= vec->num_elements)
+        return -2; // Index is out of bounds 
+    
+    // Copy data to internal array 
+    memcpy((uint8_t *)vec->vec_array + index * vec->data_size, data, vec->data_size);
+
+    return 0;
+}
+
+int v_insert(Vector *vec, void *data, size_t index)
+{
+    if(!vec || !data)
+        return -1; // Incorrect input 
+
+    if(index > vec->num_elements)
+        return -2; // Index is out of bounds 
+
+    // Resize the internal vector  
+    if(vec->num_elements + 1 > vec->capacity)
+    {
+        // double vector's capacity 
+        size_t new_capacity = vec->capacity * 2;
+        
+        // Check for integer overflow 
+        if (vec->capacity > SIZE_MAX / 2 / vec->data_size)
+            return -2; // Indicate error resizing vector 
+
+        void *new_vec_array = realloc(vec->vec_array, new_capacity * vec->data_size);
+        if(!new_vec_array)
+            return -2; // Error allocating memory 
+            
+        vec->vec_array = new_vec_array;
+        vec->capacity = new_capacity;
+    }
+
+    memmove((uint8_t *)vec->vec_array + (index + 1) * vec->data_size, 
+            (uint8_t *)vec->vec_array + index * vec->data_size, 
+            (vec->num_elements - index) * vec->data_size
+           );
+
+    memcpy((uint8_t *)vec->vec_array + index * vec->data_size, data, vec->data_size);
+
+    vec->num_elements++;
+
+    return 0;
+}
+
+int v_erase(Vector *vec, size_t index)
+{
+    if(!vec)
+        return -1; // Incorrect input 
+
+    if(index >= vec->num_elements)
+        return -2; // Index is out of bounds 
+
+    // Index is at the last element 
+    if(index == vec->num_elements - 1)
+        return v_pop_back(vec);
+    
+    memmove((uint8_t *)vec->vec_array + index * vec->data_size, 
+            (uint8_t *)vec->vec_array + (index + 1) * vec->data_size, 
+            (vec->num_elements - index - 1) * vec->data_size      
+           );
+
+    vec->num_elements--;
+
+    return 0;
+}
+
+size_t v_size(Vector *vec)
+{
+    return !vec ? 0 : vec->num_elements;
+}
+
+size_t v_capacity(Vector *vec)
+{
+    return !vec ? 0 : vec->capacity;
+}
+
+int v_empty(Vector *vec)
+{
+    return (!vec || vec->num_elements == 0) ? 1 : 0;
+}
+
+int v_clear(Vector *vec)
+{
+    if(!vec)
+        return -1;
+
+    vec->num_elements = 0; 
+
+    return 0;
+}
+
+int v_resize(Vector *vec, size_t new_capacity)
+{
+    if(!vec || new_capacity == 0)
+        return -1; // Invalid input
+
+    void *new_array = realloc(vec->vec_array, new_capacity * vec->data_size);
+    if(!new_array)
+        return -2; // Allocation failed 
+    
+    vec->vec_array = new_array;
+    vec->capacity = new_capacity;
+
+    if(vec->num_elements > new_capacity)
+        vec->num_elements = new_capacity;
+    
+    return 0;
+}
