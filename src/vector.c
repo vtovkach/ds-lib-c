@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 #include "../include/ds_vector.h"
 
@@ -39,4 +40,47 @@ void vec_destroy(Vector *vec)
 {
     free(vec->vec_array);
     free(vec);
+}
+
+int v_push_back(Vector *vec, void *data)
+{
+    if(!vec || !data)
+        return -1; // Indicate wrong input  
+
+    if(vec->capacity == vec->num_elements)
+    {
+        // double vector's capacity 
+        size_t new_capacity = vec->capacity * 2;
+        
+        // Check for integer overflow 
+        if (vec->capacity > SIZE_MAX / 2 / vec->data_size)
+            return -2; // Indicate error resizing vector 
+
+        void *new_vec_array = realloc(vec->vec_array, new_capacity * vec->data_size);
+        if(!new_vec_array)
+            return -2; // Indicate error resizing vector 
+        
+        vec->vec_array = new_vec_array; 
+        vec->capacity = new_capacity; 
+    }
+
+    // Copy data to internal vector array 
+    memcpy((uint8_t *)vec->vec_array + vec->data_size * vec->num_elements, data, vec->data_size);
+
+    vec->num_elements++;
+
+    return 0;
+}   
+
+int v_pop_back(Vector *vec)
+{
+    if(!vec)
+        return -1; // Indicate wrong input  
+
+    if(vec->num_elements == 0)
+        return 1; // Indicate empty vector
+    
+    vec->num_elements--; 
+    
+    return 0;
 }
