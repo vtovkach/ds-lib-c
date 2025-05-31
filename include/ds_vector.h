@@ -9,9 +9,9 @@ Vector *vec_create(size_t capacity, size_t data_size);
 
 void vec_destroy(Vector *vec);
 
-int v_push_back(Vector *vec);
+int v_push_back(Vector *vec, void *data);
 
-int v_pop_back(Vector *vec, void *dest);
+int v_pop_back(Vector *vec);
 
 int v_get(Vector *vec, void *dest, size_t index);
 
