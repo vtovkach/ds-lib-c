@@ -5,11 +5,11 @@
 
 typedef struct Vector Vector; 
 
-Vector *vec_create(size_t capacity, size_t, data_size);
+Vector *vec_create(size_t capacity, size_t data_size);
 
 void vec_destroy(Vector *vec);
 
-int v_push_back(Vector *vec, void *data);
+int v_push_back(Vector *vec);
 
 int v_pop_back(Vector *vec, void *dest);
 
@@ -31,6 +31,6 @@ int v_clear(Vector *vec);
 
 int v_resize(Vector *vec, size_t new_size);
 
-int v_sort(Vector *vec, void (cmp*)(const void *, const void*));
+int v_sort(Vector *vec, void (*cmp)(const void *, const void*));
 
 #endif
