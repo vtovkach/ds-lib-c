@@ -1,5 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #include "../include/ds_vector.h"
 
@@ -195,6 +197,61 @@ void test_vector_resize()
     vec_destroy(v);
 }
 
+int int_cmp(void *a, void *b) 
+{
+    int x = *(int *)a;
+    int y = *(int *)b;
+    return x - y;
+}
+
+int is_sorted(Vector *vec) 
+{
+    int prev, curr;
+    for (size_t i = 1; i < v_size(vec); i++) {
+        assert(v_get(vec, &prev, i - 1) == 0);
+        assert(v_get(vec, &curr, i) == 0);
+        if (prev > curr)
+            return 0;
+    }
+    return 1;
+}
+
+void test_insertion_sort() 
+{
+    Vector *vec = vec_create(64, sizeof(int));
+    assert(vec);
+
+    for (int i = 0; i < 50; i++) {
+        int x = rand() % 100;
+        assert(v_push_back(vec, &x) == 0);
+    }
+
+    assert(v_sort(vec, int_cmp) == 0);
+    assert(is_sorted(vec));
+
+    printf("Insertion sort test passed\n");
+    vec_destroy(vec);
+}
+
+void test_quick_sort() 
+{
+    Vector *vec = vec_create(1000, sizeof(int));
+    assert(vec);
+
+    srand(time(NULL));
+    
+    for (int i = 0; i < 100000; i++) {
+        int x = rand() % 100000;
+        assert(v_push_back(vec, &x) == 0);
+    }
+
+    assert(v_sort(vec, int_cmp) == 0);
+    assert(is_sorted(vec));
+
+    printf("Quick sort test passed\n");
+    vec_destroy(vec);
+}
+
 int main(void)
 {
     // Vector Test 
@@ -204,6 +261,8 @@ int main(void)
     test_vector_access_and_modification();
     test_vector_utility_functions();
     test_vector_resize();
+    test_insertion_sort();
+    test_quick_sort();
 
     printf("All tests were passed!\n");
 
