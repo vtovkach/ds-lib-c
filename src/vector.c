@@ -85,6 +85,19 @@ int v_pop_back(Vector *vec)
     return 0;
 }
 
+int v_top(Vector *vec, void *dest)
+{
+    if(!vec)
+        return -1;
+    
+    if(vec->num_elements == 0)
+        return 1; 
+
+    memcpy(dest, (uint8_t *)vec->vec_array + (vec->num_elements - 1) * vec->data_size, vec->data_size);
+    
+    return 0;
+}
+
 int v_get(Vector *vec, void *dest, size_t index)
 {
     if(!vec || !dest)
@@ -214,4 +227,101 @@ int v_resize(Vector *vec, size_t new_capacity)
         vec->num_elements = new_capacity;
     
     return 0;
+}
+
+static int get_partition(uint8_t *arr, size_t data_size, int begin, int end, int(*cmp)(void *a, void *b))
+{
+    void *pivot = malloc(data_size);
+    if(!pivot)
+        return -1;
+        
+    void *temp = malloc(data_size);
+    if(!temp)
+    {
+        free(pivot);
+        return -1;
+    }
+
+    memcpy(pivot, arr + end * data_size, data_size);
+
+    int i = begin - 1; 
+
+    for(int j = begin; j <= end - 1; ++j)
+    {
+        if(cmp(arr + j * data_size, pivot) < 0)
+        {
+            i++;
+            memcpy(temp, arr + i * data_size, data_size);
+            memcpy(arr + i * data_size, arr + j * data_size, data_size);
+            memcpy(arr + j * data_size, temp, data_size);
+        }
+    }
+    
+    i++;
+    memcpy(temp, arr + i * data_size, data_size);
+    memcpy(arr + i * data_size, arr + end * data_size, data_size);
+    memcpy(arr + end * data_size, temp, data_size);
+
+    free(pivot);
+    free(temp);
+
+    return i;
+}
+
+static int quick_sort(uint8_t *arr, size_t data_size, int begin, int end, int(*cmp)(void *a, void *b))
+{
+    if(begin >= end)
+        return 0; 
+    
+    int pivot = get_partition(arr, data_size, begin, end, cmp);
+    // Validate pivot 
+    if(pivot == -1)
+        return -1;
+    
+    // Return -1 to exit on failure 
+    if(quick_sort(arr, data_size, begin, pivot - 1, cmp))
+        return -1;
+
+    if(quick_sort(arr, data_size, pivot + 1, end, cmp) == -1)
+        return -1;
+    
+    return 0;
+}
+
+static int insertionSort(uint8_t *arr, size_t data_size, int size, int(*cmp)(void *a, void *b))
+{
+    void *temp = malloc(data_size); 
+    if(!temp)
+        return -1;
+
+    for(int i = 1; i < size; i++)
+    {
+        memcpy(temp, arr + (i * data_size), data_size);
+
+        int j = i - 1; 
+        
+        while(j >= 0 && cmp(arr + (j * data_size), temp) > 0)
+        {
+            memcpy(arr + ((j + 1) * data_size), arr + (j * data_size), data_size);
+            j--;
+        }
+        memcpy(arr + ((j + 1) * data_size), temp, data_size);
+    }
+
+    free(temp);
+
+    return 0;
+}
+
+int v_sort(Vector *vec, int(*cmp)(void *a, void *b))
+{
+    if(!vec || !cmp)
+        return -1; // Invalid input  
+    
+    if(vec->num_elements == 0)
+        return 0;
+    if(vec->num_elements < 100)
+        return insertionSort(vec->vec_array, vec->data_size, vec->num_elements, cmp);
+    else    
+        return quick_sort(vec->vec_array, vec->data_size, 0, vec->num_elements - 1, cmp);\
 }
