@@ -1,7 +1,7 @@
 # D_List — Generic Doubly Linked List in C
 
-A dynamically allocated, generic **doubly linked list** data structure implemented in C.  
-Supports efficient insertions, deletions, and access operations at both ends and arbitrary positions.
+A dynamically allocated, generic, resizable **doubly linked list** data structure implemented in C.  
+Supports insertions, deletions, and access operations at both ends and arbitrary positions.
 
 ---
 
