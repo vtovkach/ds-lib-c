@@ -5,7 +5,7 @@ Supports efficient insertions, deletions, and access operations at both ends and
 
 ---
 
-## ⚙️ Initialization & Destruction
+## Initialization & Destruction
 
 ### `D_List *d_list_init(size_t data_size);`
 Initializes an empty list with elements of `data_size` bytes.
@@ -17,9 +17,9 @@ Frees all memory, including list and its nodes.
 
 ---
 
-## 📦 Insertion Functions
+## Insertion Functions
 
-> 💡 Use structs or primitive values. Avoid heap pointers unless you manage deep copies.
+> Use structs or primitive values. Avoid heap pointers unless you manage deep copies.
 
 ### `int d_l__push_front(D_List *l_ptr, void *data);`  
 Insert `data` at the front.
@@ -32,7 +32,7 @@ Insert at `index`. Behaves like `push_front`/`push_back` when `index == 0` or `s
 
 ---
 
-## 🧹 Removal Functions
+##  Removal Functions
 
 Copy removed data to `dest`.
 
@@ -47,7 +47,7 @@ Remove element at index.
 
 ---
 
-## 🔎 Peek Functions
+##  Peek Functions
 
 Access data without removing it.
 
@@ -62,7 +62,7 @@ Read element at `index`. Optimized for direction.
 
 ---
 
-## 🔧 Utility Functions
+##  Utility Functions
 
 ### `int d_l_empty(D_List *l_ptr);`  
 Returns `1` if empty, `0` otherwise.
@@ -89,7 +89,7 @@ Returns current element count.
 
 ---
 
-## 🔂 Macro Helpers (Optional)
+##  Macro Helpers (Optional)
 
 ```c
 #define dl_push_front(l_ptr, type, val)  d_l__push_front(l_ptr, &(type){val})
@@ -101,7 +101,7 @@ Returns current element count.
 
 ---
 
-## 🧠 Example
+##  Example
 
 ```c
 typedef struct {
@@ -122,7 +122,7 @@ d_list_destroy(list);
 
 ---
 
-## 📌 Summary
+##  Summary
 
 - Generic, memory-safe, efficient doubly linked list
 - Full support for dynamic memory operations
