@@ -22,4 +22,12 @@ Each data structure is documented in its own Markdown file:
 - [Heap](docs/heap.md)
 
 ## Directory Structure
-<pre> ```text ds-lib-c/ ├── docs/ # Documentation files ├── include/ # Public headers ├── src/ # Source code ├── tests/ # Unit tests ├── Makefile # Build automation └── README.md # Library overview ``` </pre>
+
+```text
+ds-lib-c/
+├── docs/           # Documentation files
+├── include/        # Public headers
+├── src/            # Source code
+├── tests/          # Unit tests
+├── Makefile        # Build automation
+└── README.md       # Library overview 
