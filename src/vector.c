@@ -87,7 +87,7 @@ int v_pop_back(Vector *vec)
 
 int v_top(Vector *vec, void *dest)
 {
-    if(!vec)
+    if(!vec || !dest)
         return -1;
     
     if(vec->num_elements == 0)
@@ -323,5 +323,5 @@ int v_sort(Vector *vec, int(*cmp)(void *a, void *b))
     if(vec->num_elements < 100)
         return insertionSort(vec->vec_array, vec->data_size, vec->num_elements, cmp);
     else    
-        return quick_sort(vec->vec_array, vec->data_size, 0, vec->num_elements - 1, cmp);\
+        return quick_sort(vec->vec_array, vec->data_size, 0, vec->num_elements - 1, cmp);
 }
