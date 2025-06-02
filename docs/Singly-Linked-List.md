@@ -1,6 +1,6 @@
 # List — Generic Singly Linked List in C
 
-A lightweight, generic **singly linked list** implementation in C.  
+A lightweight, generic and resizable **singly linked list** implementation in C.  
 Efficient for forward traversal, with support for dynamic insertions, deletions, and lookups.
 
 ---
