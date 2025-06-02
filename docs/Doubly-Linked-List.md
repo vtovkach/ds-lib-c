@@ -10,10 +10,17 @@ Supports insertions, deletions, and access operations at both ends and arbitrary
 ### `D_List *d_list_init(size_t data_size);`
 Initializes an empty list with elements of `data_size` bytes.
 
+- **Parameters:**
+  - `data_size`: Size in bytes of the data type to store.
 - **Returns:** Pointer to list on success, `NULL` on failure.
+
+---
 
 ### `void d_list_destroy(D_List *l_ptr);`
 Frees all memory, including list and its nodes.
+
+- **Parameters:**
+  - `l_ptr`: Pointer to the list to destroy.
 
 ---
 
@@ -24,57 +31,113 @@ Frees all memory, including list and its nodes.
 ### `int d_l__push_front(D_List *l_ptr, void *data);`  
 Insert `data` at the front.
 
+- `l_ptr`: Pointer to the list.
+- `data`: Pointer to the data to insert.
+
+---
+
 ### `int d_l__push_back(D_List *l_ptr, void *data);`  
 Insert `data` at the rear.
+
+- `l_ptr`: Pointer to the list.
+- `data`: Pointer to the data to insert.
+
+---
 
 ### `int d_l__push_at(D_List *l_ptr, void *data, size_t index);`  
 Insert at `index`. Behaves like `push_front`/`push_back` when `index == 0` or `size`.
 
+- `l_ptr`: Pointer to the list.
+- `data`: Pointer to the data to insert.
+- `index`: Index at which to insert (0-based).
+
 ---
 
-##  Removal Functions
+## Removal Functions
 
 Copy removed data to `dest`.
 
 ### `int d_l_pop_front(D_List *l_ptr, void *dest);`  
 Remove first element.
 
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where removed data will be copied.
+
+---
+
 ### `int d_l_pop_back(D_List *l_ptr, void *dest);`  
 Remove last element.
+
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where removed data will be copied.
+
+---
 
 ### `int d_l_pop_at(D_List *l_ptr, void *dest, size_t index);`  
 Remove element at index.
 
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where removed data will be copied.
+- `index`: Index of the element to remove.
+
 ---
 
-##  Peek Functions
+## Peek Functions
 
 Access data without removing it.
 
 ### `int d_l_peek_front(D_List *l_ptr, void *dest);`  
 Read first element.
 
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where the data will be stored.
+
+---
+
 ### `int d_l_peek_back(D_List *l_ptr, void *dest);`  
 Read last element.
+
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where the data will be stored.
+
+---
 
 ### `int d_l_peek_at(D_List *l_ptr, void *dest, size_t index);`  
 Read element at `index`. Optimized for direction.
 
+- `l_ptr`: Pointer to the list.
+- `dest`: Pointer where the data will be stored.
+- `index`: Index of the element to read.
+
 ---
 
-##  Utility Functions
+## Utility Functions
 
 ### `int d_l_empty(D_List *l_ptr);`  
 Returns `1` if empty, `0` otherwise.
 
+- `l_ptr`: Pointer to the list.
+
+---
+
 ### `int d_l_clear(D_List *l_ptr);`  
 Frees all nodes, preserves list structure.
+
+- `l_ptr`: Pointer to the list.
+
+---
 
 ### `int d_l_reverse(D_List *l_ptr);`  
 Reverses list order.
 
+- `l_ptr`: Pointer to the list.
+
+---
+
 ### `size_t d_l_size(D_List *l_ptr);`  
 Returns current element count.
+
+- `l_ptr`: Pointer to the list.
 
 ---
 
@@ -89,7 +152,7 @@ Returns current element count.
 
 ---
 
-##  Macro Helpers (Optional)
+## Macro Helpers (Optional)
 
 ```c
 #define dl_push_front(l_ptr, type, val)  d_l__push_front(l_ptr, &(type){val})
@@ -101,7 +164,7 @@ Returns current element count.
 
 ---
 
-##  Example
+## Example
 
 ```c
 typedef struct {
@@ -122,7 +185,7 @@ d_list_destroy(list);
 
 ---
 
-##  Summary
+## Summary
 
 - Generic, memory-safe, efficient doubly linked list
 - Full support for dynamic memory operations
