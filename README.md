@@ -12,14 +12,14 @@ A lightweight, modular C library implementing essential data structures like vec
 
 Each data structure is documented in its own Markdown file:
 
-- [Doubly Linked List](docs/doubly_linked_list.md)
-- [Singly Linked List](docs/singly_linked_list.md)
-- [Dynamic Array (Vector)](docs/dynamic_array.md)
-- [Stack](docs/stack.md)
-- [Queue](docs/queue.md)
-- [Binary Search Tree](docs/binary_search_tree.md)
-- [Hash Table](docs/hash_table.md)
-- [Heap](docs/heap.md)
+- [Doubly Linked List](docs/Doubly-Linked-List.md)
+- [Singly Linked List](docs/Singly-Linked-List.md)
+- [Dynamic Array (Vector)](docs/Dynamic-Array.md)
+- [Stack](docs/Stack.md)
+- [Queue](docs/Queue.md)
+- [Binary Search Tree](docs/Binary-Search-Tree.md)
+- [Hash Table](docs/Hash-Table.md)
+- [Heap](docs/Heap.md)
 
 ## Directory Structure
 
