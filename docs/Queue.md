@@ -76,20 +76,6 @@ Returns `0` on success or `-1` for invalid input.
 
 ---
 
-## Internal Implementation Details
-
-- Uses a **circular array** with modular arithmetic for indexing.
-- Automatically **resizes** when full:
-  - Performs linear `memcpy` when no wraparound is detected.
-  - Reconstructs queue layout on wraparound using element-wise copying.
-- Maintains:
-  - `front`: index of the first element
-  - `rear`: index of the last element
-  - `capacity`: total slots in the buffer
-  - `num_elements`: number of elements currently stored
-
----
-
 ## Example
 ```c
 Queue *q = q_init(4, sizeof(int));
