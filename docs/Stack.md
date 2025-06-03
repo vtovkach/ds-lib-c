@@ -30,7 +30,9 @@ Pushes an element onto the stack. Internal use only.
 - **Returns:** `0` on success, `-1` on error.
 
 ### Macro: `stk_push(stk_ptr, datatype, data)`
-Type-safe push using a compound literal. Wraps `stk__push_internal`.
+Type-safe push using a compound literal. Wraps `stk__push_internal`. Only safe for scalar types.
+
+> ⚠️ **Warning:** When pushing structs or complex types, you must use `stk__push_internal`. The `stk_push` macro only supports scalar types via compound literals.
 
 ### `int stk_pop(Stack *stk_ptr, void *dest_ptr);`
 Pops the top element into `dest_ptr`.
@@ -101,4 +103,3 @@ int top;
 stk_pop(s, &top);
 stk_destroy(s);
 ```
-
