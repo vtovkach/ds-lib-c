@@ -2,6 +2,25 @@
 
 A generic, dynamically allocated **AVL Tree** data structure in C that supports insertion, deletion, searching, and traversal with automatic balancing after each operation. Optimized for fast lookups and ordered data operations.
 
+## Function Pointer Interfaces
+
+### `Compare_Func`
+```c
+typedef int (*Compare_Func)(void *left, void *right);
+```
+A user-defined function to compare two data elements:
+- Returns `< 0` if `left < right`
+- Returns `0` if `left == right`
+- Returns `> 0` if `left > right`
+
+### `TraverseAction`
+```c
+typedef void (*TraverseAction)(void *data);
+```
+A user-defined function applied to each element during tree traversal. It accepts a pointer to the node's data.
+
+---
+
 ---
 
 ## ⚠️ Usage Warning
