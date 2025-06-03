@@ -48,7 +48,7 @@ ds-lib-c/
 
 ## Download & Extract
 
-1. Navigate to the [Releases](https://github.com/your-username/ds-lib-c/releases)
+1. Navigate to the [Releases]([https://github.com/your-username/ds-lib-c/releases](https://github.com/vtovkach/ds-lib-c/releases/tag/v0.1.0))
 2. Download the release archive:
    ```
    linux-release-1.0.0.tar.gz
@@ -83,7 +83,7 @@ lib/
 Compile your C program using `gcc` and link it with `ds-lib-c`:
 
 ```bash
-gcc -o my_program main.c -L./lib -lds_lib -I./include
+gcc -o my_program your_project.c -L./lib -lds_lib -I./include
 ```
 
 Explanation:
@@ -95,7 +95,7 @@ Explanation:
 
 ## Usage
 
-In your `main.c`, simply include the master header:
+In your your project file, simply include the master header:
 
 ```c
 #include "ds_lib.h"
@@ -113,7 +113,7 @@ This exposes all core data structures:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License.  
 See the `LICENSE` file for details.
