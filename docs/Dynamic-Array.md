@@ -134,13 +134,6 @@ Sorts the vector in-place.
 
 ---
 
-## Notes
-- All data is passed and copied by value using `memcpy`.
-- Thread-safety is not guaranteed.
-- Designed for general-purpose usage with emphasis on performance and correctness.
-
----
-
 ## Example
 ```c
 Vector *v = vec_create(10, sizeof(int));
