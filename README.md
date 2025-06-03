@@ -31,8 +31,8 @@ ds-lib-c/
 ├── tests/          # Unit tests
 ├── Makefile        # Build automation
 └── README.md       # Library overview 
+```
 
-'''
 
 ## Library Structure
 
