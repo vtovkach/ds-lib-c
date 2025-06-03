@@ -21,7 +21,7 @@ Each data structure is documented in its own Markdown file:
 - [Hash Table](docs/Hash-Table.md)
 - [Heap](docs/Heap.md)
 
-## Directory Structure
+## Repository Structure
 
 ```text
 ds-lib-c/
