@@ -71,7 +71,7 @@ lib/
 Compile your C program using `gcc` and link it with `ds-lib-c`:
 
 ```bash
-gcc -o my_program your_project.c -L./lib -lds_lib -I./include
+gcc -o my_program my_program.c -L./lib -lds_lib -I./include
 ```
 
 Explanation:
