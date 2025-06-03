@@ -32,7 +32,9 @@ ds-lib-c/
 ├── Makefile        # Build automation
 └── README.md       # Library overview 
 
-## 📁 Library Structure
+'''
+
+## Library Structure
 
 ```
 ds-lib-c/
@@ -44,7 +46,7 @@ ds-lib-c/
 
 ---
 
-## 📥 Download & Extract
+## Download & Extract
 
 1. Navigate to the [Releases](https://github.com/your-username/ds-lib-c/releases)
 2. Download the release archive:
@@ -59,7 +61,7 @@ ds-lib-c/
 
 ---
 
-## ⚙️ Build the Library
+## Build the Library
 
 Compile the static library using `make`:
 
@@ -76,7 +78,7 @@ lib/
 
 ---
 
-## 🔗 Linking with Your Program
+## Linking with Your Program
 
 Compile your C program using `gcc` and link it with `ds-lib-c`:
 
@@ -91,7 +93,7 @@ Explanation:
 
 ---
 
-## ✅ Usage
+## Usage
 
 In your `main.c`, simply include the master header:
 
