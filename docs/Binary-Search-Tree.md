@@ -87,20 +87,6 @@ Returns a pointer to the largest element.
 
 ---
 
-## Structure
-
-- AVL_Tree keeps track of:
-  - Root pointer
-  - Number of elements
-  - Comparison function
-  - Data size and block count
-- Each node contains:
-  - Left and right child pointers
-  - Dynamically allocated `data`
-  - Height for AVL balancing
-
----
-
 ## Notes
 
 - The AVL tree guarantees **O(log n)** complexity for insert, delete, and search operations.
