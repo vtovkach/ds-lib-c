@@ -32,18 +32,6 @@ ds-lib-c/
 ├── Makefile        # Build automation
 └── README.md       # Library overview 
 ```
-
-
-## Library Structure
-
-```
-ds-lib-c/
-├── include/         # Public headers (e.g., ds_vector.h, ds_stack.h, etc.)
-├── src/             # Implementation files (.c)
-├── LICENSE          # MIT license
-├── Makefile         # Build script
-```
-
 ---
 
 ## Download & Extract
